@@ -76,7 +76,6 @@ class ReversePolishComputer {
 	 * @param $operator
 	 * @return bool
 	 */
-
 	protected function computeOperation($operator) {
 
 		$second_operand = $this->popFromStack();
@@ -138,7 +137,6 @@ class ReversePolishComputer {
 	 *
 	 * @return bool
 	 */
-
 	protected function pushToStack($value) {
 
 		if (!is_numeric($value)) {
