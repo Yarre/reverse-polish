@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Класс, вычисляющий выражение, записанное в обратной польской нотации.
- * Расчитан на работу с целыми числами и работает только c операторами + * - / %
- * Пример: ReversePolishComputer::compute('2 3 *') вернет 6
+ * This class computes an expression wrote in Reverse Polish Notation.
+ * It happens that expression contains only integer numbers.
+ * It works with + * - / and % operators.
+ * Example: ReversePolishComputer::compute('2 3 *') returns 6
  */
 class ReversePolishComputer {
 
@@ -15,7 +16,11 @@ class ReversePolishComputer {
 
 	protected $values_stack = array();
 
-	protected function __construct($expression) {
+	/**
+	 * Create an object with the expression and immediatly runs the evaluation
+	 * @param string $expression expression to compute
+	 * */
+	public function __construct($expression) {
 		$this->expression = strval($expression);
 		$this->expression_value = false;
 		$this->values_stack = array();
@@ -23,8 +28,7 @@ class ReversePolishComputer {
 	}
 
 	/**
-	 * Возвращает результат вычисления выражения
-	 *
+	 * Returns the computed expression or false in case of fail
 	 * @return integer|boolean
 	 */
 	protected function getComputedValue() {
@@ -32,9 +36,7 @@ class ReversePolishComputer {
 	}
 
 	/**
-	 * Вычисляет выражение
-	 *
-	 * @return bool
+	 * Main computing loop
 	 */
 	protected function computeExpression() {
 
@@ -60,7 +62,7 @@ class ReversePolishComputer {
 
 		$expression_value = $this->popFromStack();
 
-		// проверяем, что в стеке не осталось значений
+		// check that stack is empty
 		$not_empty_stack = $this->popFromStack();
 		if ($not_empty_stack !== false) {
 			return;
@@ -71,10 +73,11 @@ class ReversePolishComputer {
 	}
 
 	/**
-	 * Вычисляет выражение для переданного оператора
+	 * Computes the expression for the passed operater and two operands from the stack.
+	 * Puts the result expression to the stack.
 	 *
-	 * @param $operator
-	 * @return bool
+	 * @param string $operator
+	 * @return bool result
 	 */
 	protected function computeOperation($operator) {
 
@@ -117,13 +120,13 @@ class ReversePolishComputer {
 	}
 
 	/**
-	 * Выбирает последнее переданное значение в стек или false, если он пустой
+	 * Gets last value from the stack or false if it's empty
 	 *
 	 * @return integer|bool
 	 */
 	protected function popFromStack() {
 
-		if (count($this->values_stack) == 0) {
+		if (count($this->values_stack) === 0) {
 			return false;
 		}
 
@@ -133,7 +136,7 @@ class ReversePolishComputer {
 	}
 
 	/**
-	 * Сохраняет значение в стек
+	 * Saves value to the stack
 	 *
 	 * @return bool
 	 */
@@ -147,9 +150,9 @@ class ReversePolishComputer {
 	}
 
 	/**
-	 * Определяет, является переданный символ оператором (true)
+	 * Checks if passed token is operator
 	 *
-	 * @param $token
+	 * @param string $token
 	 * @return bool
 	 */
 	protected function isOperator($token) {
@@ -164,7 +167,7 @@ class ReversePolishComputer {
 
 
 	/**
-	 * Вычисляет выражение, записанное в обратной польской нотации
+	 * Static function to use class without it's creation
 	 *
 	 * @param string $expression
 	 * @example '15 100 +'
